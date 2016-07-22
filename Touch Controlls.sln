@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{849F5D4B-226A-7FA9-8BD2-AA5483567F63}") = "Touch Controlls", "Assembly-CSharp-firstpass.csproj", "{ECD4AAC6-3D7A-C055-9090-57109644CC46}"
+EndProject
+Project("{849F5D4B-226A-7FA9-8BD2-AA5483567F63}") = "Touch Controlls", "Assembly-CSharp.csproj", "{A13EB2D5-8CCC-AF35-5A72-D1C7614AD58E}"
+EndProject
+Project("{849F5D4B-226A-7FA9-8BD2-AA5483567F63}") = "Touch Controlls", "Assembly-CSharp-Editor-firstpass.csproj", "{3D5B249C-3EEC-6CF8-983E-352088A9D97C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECD4AAC6-3D7A-C055-9090-57109644CC46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD4AAC6-3D7A-C055-9090-57109644CC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD4AAC6-3D7A-C055-9090-57109644CC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD4AAC6-3D7A-C055-9090-57109644CC46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A13EB2D5-8CCC-AF35-5A72-D1C7614AD58E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A13EB2D5-8CCC-AF35-5A72-D1C7614AD58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A13EB2D5-8CCC-AF35-5A72-D1C7614AD58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A13EB2D5-8CCC-AF35-5A72-D1C7614AD58E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D5B249C-3EEC-6CF8-983E-352088A9D97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D5B249C-3EEC-6CF8-983E-352088A9D97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D5B249C-3EEC-6CF8-983E-352088A9D97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D5B249C-3EEC-6CF8-983E-352088A9D97C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

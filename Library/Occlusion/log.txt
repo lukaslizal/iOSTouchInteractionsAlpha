@@ -1,0 +1,20 @@
+[13:14:44] INFO: Umbra 3 Optimizer version 3.3.16  (build: 6af63c9c4b1bd614a60aa456007153081e166aae)
+[13:14:44] WARNING: Invalid smallest hole value, using 12.500000
+[13:14:44] INFO: T: 400 O: 100 H: 12.5 B: 100
+[13:14:44] INFO: Tile grid 8x8x4 (at -4,-4,0) created for scene: 4 tiles (0 empties not included) in 0.000 seconds
+[13:14:44] INFO: Using 4 threads to compute 4 tiles, cache 4096 MB
+[13:14:44] INFO: Tile processing complete, computed 4 tiles
+[13:14:44] INFO: Strict view volumes: no
+[13:14:44] INFO: Filtered 0/1 inside clusters
+[13:14:44] INFO: Filtered 0/1 global clusters
+[13:14:44] INFO: 4/4 cells reachable after global analysis
+[13:14:44] INFO: collapsed leaf tiles 4 => 1
+[13:14:44] INFO: Generating LOD tiles using 4 threads
+[13:14:44] INFO: Connecting LOD tiles
+[13:14:44] INFO: Compressing lists
+[13:14:44] INFO: Average index range size: -1.00
+[13:14:44] INFO: object list: 4 B, cluster list: 0 B
+[13:14:44] INFO: created tome with 1 tiles, 1 targets and 0 gates
+[13:14:44] INFO: Checking cache...
+[13:14:44] INFO: Cache check finished
+[13:14:44] DEBUG: Total allocations 1713, peak 129 (size 130 kB 909 B)
