@@ -9,9 +9,6 @@ using System;
 */
 public class PanHandler : MonoBehaviour
 {
-    public enum GestureState { Start, End, Done };     //states - Start - finger on screen, End - figer off screen (inertia), Done - inertia stops -> camera is still, Collision - inertia is influenced by any kind of obstacle (borders,snapping points etc.)
-    public enum PanOrientation { Horizontal, Vertical };     //states - Horizontal - camera moves on x axis, Vertical - camera moves on y axis
-    public enum PanDirection { Minus, Plus };     //states - Minus - camera moves in minus direction (in activated oriantation), Plus - camera moves to Plus direction
     public GestureState gestureState;          //which state is Pan in? (start,end,done)
     public PanOrientation panOrientation;          //which direction does Pan follows?
     public PanDirection panDirection;          //which direction does Pan follows?

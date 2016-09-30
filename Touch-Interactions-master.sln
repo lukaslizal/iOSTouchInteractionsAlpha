@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{A13461A4-24B9-AD56-66E9-D363D142F9FA}") = "Touch-Interactions-master", "Assembly-CSharp-firstpass.csproj", "{E90B3990-A74B-64F6-33C8-7320ECCC1910}"
+EndProject
+Project("{A13461A4-24B9-AD56-66E9-D363D142F9FA}") = "Touch-Interactions-master", "Assembly-CSharp.csproj", "{18D9952C-1D30-5428-1D96-6692D6445F1D}"
+EndProject
+Project("{A13461A4-24B9-AD56-66E9-D363D142F9FA}") = "Touch-Interactions-master", "Assembly-CSharp-Editor-firstpass.csproj", "{ED742DE8-60CD-1A03-363D-D86EE8C264DC}"
+EndProject
+Project("{A13461A4-24B9-AD56-66E9-D363D142F9FA}") = "Touch-Interactions-master", "Assembly-CSharp-Editor.csproj", "{4A55E87D-1E87-6D5E-6E56-38E80EAEF1CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E90B3990-A74B-64F6-33C8-7320ECCC1910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90B3990-A74B-64F6-33C8-7320ECCC1910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90B3990-A74B-64F6-33C8-7320ECCC1910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90B3990-A74B-64F6-33C8-7320ECCC1910}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18D9952C-1D30-5428-1D96-6692D6445F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18D9952C-1D30-5428-1D96-6692D6445F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18D9952C-1D30-5428-1D96-6692D6445F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18D9952C-1D30-5428-1D96-6692D6445F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED742DE8-60CD-1A03-363D-D86EE8C264DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED742DE8-60CD-1A03-363D-D86EE8C264DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED742DE8-60CD-1A03-363D-D86EE8C264DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED742DE8-60CD-1A03-363D-D86EE8C264DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A55E87D-1E87-6D5E-6E56-38E80EAEF1CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A55E87D-1E87-6D5E-6E56-38E80EAEF1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A55E87D-1E87-6D5E-6E56-38E80EAEF1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A55E87D-1E87-6D5E-6E56-38E80EAEF1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

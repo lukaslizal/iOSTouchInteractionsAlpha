@@ -34,7 +34,7 @@ public class CollisionHandler : MonoBehaviour
         transform.parent.GetComponent<PanHandler>().SetCollider(null);
     }
 
-    public bool IsCameraInFreeZone(PanHandler.PanOrientation panOrientation)
+    public bool IsCameraInFreeZone(PanOrientation panOrientation)
     {
         float position = 0f;
         float extents = 0f;
@@ -42,13 +42,13 @@ public class CollisionHandler : MonoBehaviour
         bool Minus = false;
         switch (panOrientation)
         {
-            case PanHandler.PanOrientation.Horizontal:
+            case PanOrientation.Horizontal:
                 position = transform.position.x;
                 extents = GetComponent<Collider>().bounds.extents.x;
                 Minus = xMinus;
                 Plus = xPlus;
                 break;
-            case PanHandler.PanOrientation.Vertical:
+            case PanOrientation.Vertical:
                 position = transform.position.y;
                 extents = GetComponent<Collider>().bounds.extents.y;
                 Minus = yMinus;
