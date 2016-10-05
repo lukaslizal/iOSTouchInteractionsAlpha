@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{18D9952C-1D30-5428-1D96-6692D6445F1D}</ProjectGuid>
+    <ProjectGuid>{5CFBC62D-EA03-AA33-5655-568E1B3A4EBF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Curves\BezierSpline.cs" />
      <Compile Include="Assets\Scripts\Curves\CurvePanHandler.cs" />
      <Compile Include="Assets\Scripts\Curves\FloatArrayExtensions.cs" />
+     <Compile Include="Assets\Scripts\Curves\PositionState.cs" />
      <Compile Include="Assets\Scripts\Curves\SplineCollisionHandler.cs" />
      <Compile Include="Assets\Scripts\Curves\SplineDecorator.cs" />
      <Compile Include="Assets\Scripts\Curves\SplineWalker.cs" />
@@ -78,12 +79,12 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="TouchScript">
- <HintPath>/Users/Lukas/Documents/unity/Touch-Interactions-master/Assets/Plugins/TouchScript.dll</HintPath>
+ <HintPath>/Users/Lukas/Documents/unity/Touch-Interactions/Assets/Plugins/TouchScript.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{E90B3990-A74B-64F6-33C8-7320ECCC1910}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{86E7D723-DECC-1379-A3CF-55CD9B943C29}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

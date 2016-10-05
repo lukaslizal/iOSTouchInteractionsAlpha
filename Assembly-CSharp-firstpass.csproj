@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E90B3990-A74B-64F6-33C8-7320ECCC1910}</ProjectGuid>
+    <ProjectGuid>{86E7D723-DECC-1379-A3CF-55CD9B943C29}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
@@ -62,7 +62,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="TouchScript">
- <HintPath>/Users/Lukas/Documents/unity/Touch-Interactions-master/Assets/Plugins/TouchScript.dll</HintPath>
+ <HintPath>/Users/Lukas/Documents/unity/Touch-Interactions/Assets/Plugins/TouchScript.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

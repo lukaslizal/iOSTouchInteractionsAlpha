@@ -5,6 +5,7 @@ public class BezierSpline : MonoBehaviour
 {
     [SerializeField]
     public bool showGraph;
+    //samples of length along spline from begining (sampled in some points)
     public float[] arr;
     private GameObject[] arrGraph;
 
