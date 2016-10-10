@@ -6,7 +6,7 @@ using System;
 /*  
 *   
 *   
-*/  
+*/
 public class CurvePanHandler : MonoBehaviour
 {
     private SplineWalker walker;                //object being moved
@@ -14,6 +14,9 @@ public class CurvePanHandler : MonoBehaviour
     private float magnitude;                    //is like difference, but projected into relevant direction vector (direction of path)
     private Vector3 direction;                  //direction vector in which we need to pan
     private float progress;                     // progress of whatever we are moving in game scene
+    private float dampProgress;                     // progress of whatever we are moving in game scene
+    private bool passing;
+    private bool panCompletedInAttractor;
     public float distanceFromEdge;              // when in bump zone how close is player to the very end of bump zone edge
     public float normalizedDistance;            // distance from edge as interval <0,1>
     public GestureState gestureState;           //which state is Pan in? (start,end,done)
@@ -28,6 +31,7 @@ public class CurvePanHandler : MonoBehaviour
         magnitude = 0f;
         difference = Vector2.zero;
         gestureState = GestureState.Done;
+        passing = false;
     }
     void Start()
     {
@@ -97,8 +101,17 @@ public class CurvePanHandler : MonoBehaviour
         magnitude = Vector3.Dot(difference, Vector3.ProjectOnPlane(direction, Camera.main.transform.forward).normalized);
         magnitude = Mathf.Clamp(magnitude, -maxMagnitude, maxMagnitude);
 
+        // Debug.Log("magnitude: " + magnitude + "; startProgress: " + progress + "; expectedProgress: " + walker.GetEndFromMagnitude(magnitude, inertiaIntensity));
+        if(walker.getState()==PositionState.AttractionZone)
+        {
+            // Debug.Log("setIsPassing on pan completed");
+            passing = walker.IsPassing(magnitude,inertiaIntensity);
+            // passing = false;
+        }
+
         gestureState = GestureState.End;
-        walker.prevState = PositionState.FreeZone;
+        if(walker.getState()!= PositionState.AttractionZone)
+            walker.prevState = PositionState.FreeZone;
     }
 
     void Update()
@@ -114,22 +127,48 @@ public class CurvePanHandler : MonoBehaviour
                 break;
             // inertia
             case GestureState.End:
-                // if camera is in free moving area
-                if (walker.state == PositionState.FreeZone)
+                switch (walker.getState())
                 {
-                    FreeMoveZoneInertia();
+                    // if camera is in free moving area
+                    case PositionState.FreeZone:
+                        FreeMoveZoneInertia();
+                        break;
+                    case PositionState.AttractionZone:
+                        if (walker.getPrevState() != PositionState.AttractionZone) // || (walker.getPrevState() == PositionState.AttractionZone && walker.getActiveAttractionPoint()!=walker.getActiveAttractionPoint()))
+                        {
+                            // Debug.Log("setIsPassing on enter zone. "+walker.getPrevState());
+                            passing = walker.IsPassing(magnitude, inertiaIntensity);
+                            // passing = false;
+                        }
+                        FreeMoveZoneInertia();
+                        AttractToPoint();
+
+                        break;
+                    // if camera is inside bumping end
+                    case PositionState.BumpBack:
+                        Bump();
+                        break;
+                    // if camera is inside bumping end
+                    case PositionState.BumpForward:
+                        Bump();
+                        break;
                 }
-                // if camera is inside bumping end
+                if (!passing && walker.getState() == PositionState.AttractionZone)
+                    // progress = Mathf.SmoothStep(progress, dampProgress, Mathf.Abs(walker.getNormalizedDistanceToCenter() * 5));
+                    progress = Mathf.Lerp(progress, dampProgress, Mathf.Sqrt(Mathf.Sqrt(Mathf.Abs(walker.getNormalizedDistanceToCenter()))));
                 else
-                {
-                    Bump();
-                }
-                progress -= magnitude;
+                    progress -= magnitude;
+
+
+                // Debug.Log(walker.getNormalizedDistanceToCenter());
+                // progress = dampProgress;
+
                 walker.SetProgress(progress);
                 if (Math.Abs(magnitude) < 0.001f && !LeanTween.isTweening())
                 {
-                    gestureState = GestureState.Done;
+                    // gestureState = GestureState.Done;
                     magnitude = 0f;
+                    passing = false;
                 }
                 walker.SetPositionState();
                 break;
@@ -144,34 +183,13 @@ public class CurvePanHandler : MonoBehaviour
         magnitude *= inertiaIntensity;
     }
 
-    //slows down as player is panning into the end of bumping area
-    //slows down only when player moves into the end of bump area not slowing down when moving back to free movement area
-    private void SlowDown()
+    private void AttractToPoint()
     {
-        distanceFromEdge = 0f;
-        normalizedDistance = 1f;
-        if (walker.state == PositionState.BumpForward)
+        if (!passing && Mathf.Abs(progress - walker.activeAtrractionPoint.getCenter()) > 0.05)
         {
-            distanceFromEdge = Math.Abs(0f + walker.bumpOffset + progress);
-        }
-        if (walker.state == PositionState.BumpBack)
-        {
-            distanceFromEdge = Math.Abs(walker.spline.arr[walker.spline.arr.Length - 1] + walker.bumpOffset - progress);
-        }
-
-        // slow down only when moving in direction to the bump - and not slow down when moving finger out of bumping area
-        if ((walker.state == PositionState.BumpForward && magnitude > 0f) || (walker.state == PositionState.BumpBack && magnitude < 0f))
-        {
-            normalizedDistance = Math.Abs(distanceFromEdge / walker.bumpOffset);
-            //sometimes when swiping furiously back and forward normalizedDistance can get out of range <0,1> into high very numbers so we need to clip these cases
-            if (normalizedDistance > 1f || normalizedDistance < 0f)
-            {
-                normalizedDistance = 0f;
-            }
-            magnitude *= normalizedDistance * normalizedDistance;
+            dampProgress = Mathf.SmoothDamp(walker.getProgress(), walker.activeAtrractionPoint.getCenter(), ref magnitude, 0.2f); // pozn cas t by mel byt zavisly na delce intervalu! pozdeji naimplementovat
         }
     }
-
     private void Bump()
     {
         var backToSpline = 0f;
@@ -203,6 +221,34 @@ public class CurvePanHandler : MonoBehaviour
                 .setEase(LeanTweenType.easeOutQuint);
 
             magnitude = 0f;
+        }
+    }
+
+    //slows down as player is panning into the end of bumping area
+    //slows down only when player moves into the end of bump area not slowing down when moving back to free movement area
+    private void SlowDown()
+    {
+        distanceFromEdge = 0f;
+        normalizedDistance = 1f;
+        if (walker.state == PositionState.BumpForward)
+        {
+            distanceFromEdge = Math.Abs(0f + walker.bumpOffset + progress);
+        }
+        if (walker.state == PositionState.BumpBack)
+        {
+            distanceFromEdge = Math.Abs(walker.spline.arr[walker.spline.arr.Length - 1] + walker.bumpOffset - progress);
+        }
+
+        // slow down only when moving in direction to the bump - and not slow down when moving finger out of bumping area
+        if ((walker.state == PositionState.BumpForward && magnitude > 0f) || (walker.state == PositionState.BumpBack && magnitude < 0f))
+        {
+            normalizedDistance = Math.Abs(distanceFromEdge / walker.bumpOffset);
+            //sometimes when swiping furiously back and forward normalizedDistance can get out of range <0,1> into high very numbers so we need to clip these cases
+            if (normalizedDistance > 1f || normalizedDistance < 0f)
+            {
+                normalizedDistance = 0f;
+            }
+            magnitude *= normalizedDistance * normalizedDistance;
         }
     }
 }

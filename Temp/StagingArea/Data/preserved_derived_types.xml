@@ -1,0 +1,116 @@
+<linker>
+<assembly fullname="Assembly-CSharp-firstpass">
+<type fullname="LeanTester" preserve="all"/>
+<type fullname="LeanTween" preserve="all"/>
+</assembly>
+<assembly fullname="Assembly-CSharp">
+<type fullname="CollisionHandler" preserve="all"/>
+<type fullname="BezierSpline" preserve="all"/>
+<type fullname="CurvePanHandler" preserve="all"/>
+<type fullname="Interval" preserve="all"/>
+<type fullname="SplineCollisionHandler" preserve="all"/>
+<type fullname="SplineDecorator" preserve="all"/>
+<type fullname="SplineWalker" preserve="all"/>
+<type fullname="SplineWalkingChain" preserve="all"/>
+<type fullname="SplineWalkingChainNoCorr" preserve="all"/>
+<type fullname="GameManager" preserve="all"/>
+<type fullname="PanButton" preserve="all"/>
+<type fullname="PanHandler" preserve="all"/>
+<type fullname="PanObject" preserve="all"/>
+<type fullname="PlaceAssets" preserve="all"/>
+<type fullname="TapBreaker" preserve="all"/>
+<type fullname="TapHandler" preserve="all"/>
+<type fullname="TapSpawner" preserve="all"/>
+<type fullname="Tween" preserve="all"/>
+</assembly>
+<assembly fullname="TouchScript">
+<type fullname="TouchScript.Behaviors.FullscreenTarget" preserve="all"/>
+<type fullname="TouchScript.Gestures.Clustered.ClusteredPinnedTransformGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.Clustered.ClusteredScreenTransformGesture" preserve="all"/>
+<type fullname="TouchScript.Behaviors.TouchScriptInputModule" preserve="all"/>
+<type fullname="TouchScript.Behaviors.Transformer" preserve="all"/>
+<type fullname="TouchScript.Behaviors.Transformer2D" preserve="all"/>
+<type fullname="TouchScript.DebuggableMonoBehaviour" preserve="all"/>
+<type fullname="TouchScript.Debugging.TouchDebugger" preserve="all"/>
+<type fullname="TouchScript.Devices.Display.GenericDisplayDevice" preserve="all"/>
+<type fullname="TouchScript.GestureManager" preserve="all"/>
+<type fullname="TouchScript.GestureManagerInstance" preserve="all"/>
+<type fullname="TouchScript.Gestures.Base.PinnedTrasformGestureBase" preserve="all"/>
+<type fullname="TouchScript.Gestures.Base.TransformGestureBase" preserve="all"/>
+<type fullname="TouchScript.Gestures.Clustered.ClusteredTransformGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.PinnedTransformGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.ScreenTransformGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.TransformGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.FlickGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.Gesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.LongPressGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.PanGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.RotateGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.ScaleGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.MetaGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.PressGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.ReleaseGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.Simple.SimplePanGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.Simple.SimpleRotateGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.Simple.SimpleScaleGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.TapGesture" preserve="all"/>
+<type fullname="TouchScript.Gestures.Simple.Transform2DGestureBase" preserve="all"/>
+<type fullname="TouchScript.Gestures.Simple.TwoPointTransform2DGestureBase" preserve="all"/>
+<type fullname="TouchScript.Hit.HitTest" preserve="all"/>
+<type fullname="TouchScript.Hit.Untouchable" preserve="all"/>
+<type fullname="TouchScript.Devices.Display.DisplayDevice" preserve="all"/>
+<type fullname="TouchScript.InputSources.InputSource" preserve="all"/>
+<type fullname="TouchScript.InputSources.MouseInput" preserve="all"/>
+<type fullname="TouchScript.Layers.CameraLayer" preserve="all"/>
+<type fullname="TouchScript.Layers.CameraLayer2D" preserve="all"/>
+<type fullname="TouchScript.Layers.CameraLayerBase" preserve="all"/>
+<type fullname="TouchScript.Layers.FullscreenLayer" preserve="all"/>
+<type fullname="TouchScript.Layers.TouchLayer" preserve="all"/>
+<type fullname="TouchScript.TouchManager" preserve="all"/>
+<type fullname="TouchScript.TouchManagerInstance" preserve="all"/>
+<type fullname="TouchScript.InputSources.MobileInput" preserve="all"/>
+</assembly>
+<assembly fullname="UnityEngine.UI">
+<type fullname="UnityEngine.EventSystems.EventSystem" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.EventTrigger" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.UIBehaviour" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.BaseInputModule" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.PointerInputModule" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.StandaloneInputModule" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.TouchInputModule" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.BaseRaycaster" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.Physics2DRaycaster" preserve="all"/>
+<type fullname="UnityEngine.EventSystems.PhysicsRaycaster" preserve="all"/>
+<type fullname="UnityEngine.UI.Button" preserve="all"/>
+<type fullname="UnityEngine.UI.Dropdown" preserve="all"/>
+<type fullname="UnityEngine.UI.Dropdown/DropdownItem" preserve="all"/>
+<type fullname="UnityEngine.UI.Graphic" preserve="all"/>
+<type fullname="UnityEngine.UI.GraphicRaycaster" preserve="all"/>
+<type fullname="UnityEngine.UI.Image" preserve="all"/>
+<type fullname="UnityEngine.UI.InputField" preserve="all"/>
+<type fullname="UnityEngine.UI.Mask" preserve="all"/>
+<type fullname="UnityEngine.UI.MaskableGraphic" preserve="all"/>
+<type fullname="UnityEngine.UI.RawImage" preserve="all"/>
+<type fullname="UnityEngine.UI.RectMask2D" preserve="all"/>
+<type fullname="UnityEngine.UI.Scrollbar" preserve="all"/>
+<type fullname="UnityEngine.UI.ScrollRect" preserve="all"/>
+<type fullname="UnityEngine.UI.Selectable" preserve="all"/>
+<type fullname="UnityEngine.UI.Slider" preserve="all"/>
+<type fullname="UnityEngine.UI.Text" preserve="all"/>
+<type fullname="UnityEngine.UI.Toggle" preserve="all"/>
+<type fullname="UnityEngine.UI.ToggleGroup" preserve="all"/>
+<type fullname="UnityEngine.UI.AspectRatioFitter" preserve="all"/>
+<type fullname="UnityEngine.UI.CanvasScaler" preserve="all"/>
+<type fullname="UnityEngine.UI.ContentSizeFitter" preserve="all"/>
+<type fullname="UnityEngine.UI.GridLayoutGroup" preserve="all"/>
+<type fullname="UnityEngine.UI.HorizontalLayoutGroup" preserve="all"/>
+<type fullname="UnityEngine.UI.HorizontalOrVerticalLayoutGroup" preserve="all"/>
+<type fullname="UnityEngine.UI.LayoutElement" preserve="all"/>
+<type fullname="UnityEngine.UI.LayoutGroup" preserve="all"/>
+<type fullname="UnityEngine.UI.VerticalLayoutGroup" preserve="all"/>
+<type fullname="UnityEngine.UI.BaseMeshEffect" preserve="all"/>
+<type fullname="UnityEngine.UI.Outline" preserve="all"/>
+<type fullname="UnityEngine.UI.PositionAsUV1" preserve="all"/>
+<type fullname="UnityEngine.UI.Shadow" preserve="all"/>
+</assembly>
+</linker>

@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Curves\BezierSpline.cs" />
      <Compile Include="Assets\Scripts\Curves\CurvePanHandler.cs" />
      <Compile Include="Assets\Scripts\Curves\FloatArrayExtensions.cs" />
+     <Compile Include="Assets\Scripts\Curves\Interval.cs" />
      <Compile Include="Assets\Scripts\Curves\PositionState.cs" />
      <Compile Include="Assets\Scripts\Curves\SplineCollisionHandler.cs" />
      <Compile Include="Assets\Scripts\Curves\SplineDecorator.cs" />

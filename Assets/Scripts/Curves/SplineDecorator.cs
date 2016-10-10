@@ -37,18 +37,18 @@ public class SplineDecorator : MonoBehaviour
 
     private void Update()
     {
-        for (var i = 0; i < spline.arr[spline.arr.Length - 1] / offset; i++)
-        {
-            if (i < maxObjectCount)
-            {
-                var progress = i * offset;
-                var t = spline.FindTAt(progress);
-                Vector3 position = spline.GetPoint(t);
-                dots[i].transform.localPosition = position;
-                dots[i].transform.LookAt(position + spline.GetDirection(t));
-                dots[i].GetComponent<Renderer>().enabled = true;
-            }
-        }
+        // for (var i = 0; i < spline.arr[spline.arr.Length - 1] / offset; i++)
+        // {
+        //     if (i < maxObjectCount)
+        //     {
+        //         var progress = i * offset;
+        //         var t = spline.FindTAt(progress);
+        //         Vector3 position = spline.GetPoint(t);
+        //         dots[i].transform.localPosition = position;
+        //         dots[i].transform.LookAt(position + spline.GetDirection(t));
+        //         dots[i].GetComponent<Renderer>().enabled = true;
+        //     }
+        // }
 
     }
 }
