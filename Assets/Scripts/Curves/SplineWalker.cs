@@ -9,7 +9,7 @@ public class SplineWalker : MonoBehaviour
     public Interval[] attractionPoints;
     public Interval activeAtrractionPoint;
     public float bumpOffset;
-    public bool lookForward;
+    public bool followCurveOrientation;
     public float progress;
     public float t;
     public GameObject pointPrefab;
@@ -17,9 +17,23 @@ public class SplineWalker : MonoBehaviour
 
     public void Start()
     {
-        var reach = 4f;
+        // var reach = 4f;
+        var reach = 5f;
         // attractionPoints = new Interval[] { new Interval(0, 5),new Interval(30, 5),new Interval(20, 5),new Interval(10, 5) };
-        attractionPoints = new Interval[] { new Interval(20,reach), new Interval(40, reach), new Interval(60, reach), new Interval(80, reach), new Interval(100, reach), new Interval(130, reach), new Interval(155, reach)};
+        attractionPoints = new Interval[] { new Interval(120, reach),
+        new Interval(130, reach),
+        new Interval(140, reach),
+        new Interval(150, reach),
+        new Interval(160, reach),
+        new Interval(170, reach),
+        new Interval(180, reach),
+
+        new Interval(240, reach),
+        new Interval(250, reach),
+        new Interval(270, reach),
+        new Interval(300, reach),
+        new Interval(340, reach),
+        };
         for (int i = 0; i < attractionPoints.Length; i++)
         {
             var ti = spline.FindTAt(attractionPoints[i].center);
@@ -41,35 +55,21 @@ public class SplineWalker : MonoBehaviour
             // point.transform.LookAt(position + spline.GetDirection(ti));
         }
 
-
-
         t = 0f;
         SetProgress(t);
 
-
-        if (lookForward)
-        {
-            Camera.main.transform.localPosition = new Vector3(-20, 0, 0);
-            Camera.main.transform.localRotation = Quaternion.Euler(0, 90, 0);
-        }
-        else
+        if (followCurveOrientation)
         {
             Camera.main.transform.localPosition = new Vector3(0, 0, -20);
             Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
+        else
+        {
+            Camera.main.transform.localPosition = new Vector3(-20, 0, 0);
+            Camera.main.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        }
     }
-    private void Update()
-    {
-        // progress += (Time.deltaTime / duration*speed);
-        // progress %= spline.arr[spline.arr.Length-1];
-        // var t = spline.FindTAt(progress);
-        // Vector3 position = spline.GetPoint(t);
-        // transform.localPosition = position+ new Vector3(0,0,-10);
-        // if (lookForward) {
-        // 	transform.up = spline.GetDirection(t);
-        // 	transform.rotation = Quaternion.Euler (0, 0, transform.eulerAngles.z);
-        // }
-    }
+
     public void SetProgress(float p)
     {
         if (spline.Loop)
@@ -101,18 +101,18 @@ public class SplineWalker : MonoBehaviour
                 transform.localPosition = newPosition;
             }
         }
-        if (lookForward)
+        if (followCurveOrientation)
+        {
+            // follow camera rotation follows curvature of spline. We can also get different kind of target following when camera is rotatated by 90
+            transform.up = spline.GetDirection(t);
+            transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z);
+        }
+        else
         {
             // Debug.DrawRay(transform.position, transform.forward, Color.blue, 2f, true);
             // Debug.DrawRay(Vector3.ProjectOnPlane(spline.GetPoint(t) + spline.GetDirection(t)*100, new Vector3(0,1,0)), transform.forward, Color.red, 2f, true);
 
             transform.LookAt(Vector3.ProjectOnPlane(spline.GetPoint(t) + spline.GetDirection(t) * 100, new Vector3(0, 1, 0)) + new Vector3(0, transform.position.y, 0));
-        }
-        else
-        {
-            // follow camera rotation follows curvature of spline. We can also get different kind of target following when camera is rotatated by 90
-            transform.up = spline.GetDirection(t);
-            transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z);
         }
     }
 
@@ -122,27 +122,29 @@ public class SplineWalker : MonoBehaviour
         {
             if (progress >= 0f && progress <= spline.arr[spline.arr.Length - 1])
             {
-                var inAttration = false;
-                foreach (var i in attractionPoints)
-                {
-                    if (progress > i.start && progress < i.end)
-                    {
-                        // if (activeAtrractionPoint == null)
-                        activeAtrractionPoint = i;
-                        inAttration = true;
-                    }
-                }
-                prevState = state;
-                if (inAttration)
-                {
-                    state = PositionState.AttractionZone;
-                }
-                else
-                {
-                    activeAtrractionPoint = null;
-                    state = PositionState.FreeZone;
-                }
+                // var inAttration = false;
+                // foreach (var i in attractionPoints)
+                // {
+                //     if (progress > i.start && progress < i.end)
+                //     {
+                //         // if (activeAtrractionPoint == null)
+                //         activeAtrractionPoint = i;
+                //         inAttration = true;
+                //     }
+                // }
+                // prevState = state;
+                // if (inAttration)
+                // {
+                //     state = PositionState.AttractionZone;
+                // }
+                // else
+                // {
+                //     activeAtrractionPoint = null;
+                //     state = PositionState.FreeZone;
+                // }
 
+                prevState = state;
+                state = PositionState.FreeZone;
             }
             else
             {
@@ -158,19 +160,30 @@ public class SplineWalker : MonoBehaviour
             }
         }
     }
-    public Interval checkForAttractionPoint()
+    public Interval CheckForAttractionPointAt(float progress)
     {
+        activeAtrractionPoint = null;
         Interval point = null;
-        foreach (var i in attractionPoints)
+        var i = 0;
+        while (point == null && i < attractionPoints.Length)
         {
-            if (progress > i.start && progress < i.end)
+            if (progress > attractionPoints[i].GetStart() && progress < attractionPoints[i].GetEnd())
             {
-                if (activeAtrractionPoint != null)
-                    point = i;
+                // Debug.Log("destination: " + progress + ", center: " + attractionPoints[i].center+", number: "+i);
+                point = attractionPoints[i];
             }
+            i++;
         }
-        Debug.Log(point);
         return point;
+        // foreach (var i in attractionPoints)
+        // {
+        //     if (progress > i.start && progress < i.end)
+        //     {
+        //         if (activeAtrractionPoint != null)
+        //             point = i;
+        //     }
+        // }
+        // Debug.Log(point);
     }
     public bool ToTriggerBump()
     {
@@ -178,35 +191,49 @@ public class SplineWalker : MonoBehaviour
         prevState = state;
         return trigger;
     }
-    public PositionState getState()
+    public PositionState GetState()
     {
         return state;
     }
-    public PositionState getPrevState()
+    public PositionState GetPrevState()
     {
         return prevState;
     }
-    public float getProgress()
+    public float GetProgress()
     {
         return progress;
     }
-    public Interval getActiveAttractionPoint()
+    public Interval GetActiveAttractionPoint()
     {
         return activeAtrractionPoint;
     }
 
     // where player is inside active interval expressed as flaot between -1..1
-    public float getNormalizedDistanceToCenter()
+    public float GetNormalizedDistanceToCenter()
     {
         return (activeAtrractionPoint.center - progress) / (activeAtrractionPoint.center - activeAtrractionPoint.start);
     }
+    // where player is inside active interval expressed as flaot between -1..1
+    public float GetNormalizedDistanceTo(float to, float from)
+    {
+        return (to - progress) / (to - from);
+    }
+
     public bool IsPassing(float magnitude, float inertiaIntensity)
     {
         // Debug.Log("expected end: " + GetEndFromMagnitude(magnitude, inertiaIntensity) + "; passing: " + (GetEndFromMagnitude(magnitude, inertiaIntensity) < activeAtrractionPoint.start && GetEndFromMagnitude(magnitude, inertiaIntensity) > activeAtrractionPoint.end));
         return GetEndFromMagnitude(magnitude, inertiaIntensity) < activeAtrractionPoint.start || GetEndFromMagnitude(magnitude, inertiaIntensity) > activeAtrractionPoint.end;
     }
+    // get destination of freemovetzone inertia
     public float GetEndFromMagnitude(float magnitude, float inertiaIntensity)
     {
+        // Debug.Log("predicted destination: "+(progress - magnitude * (inertiaIntensity * 10) - 0.011f));
         return progress - magnitude * (inertiaIntensity * 10) - 0.011f;
+    }
+    // get starting diff (magnitude) of freemovezone inertia which results in stoping in destination
+    public float GetMagnitudeFromEnd(float from, float to, float inertiaIntensity)
+    {
+        var distance = from - to;
+        return distance / (inertiaIntensity * 10);
     }
 }

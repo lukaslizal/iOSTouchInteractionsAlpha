@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using TouchScript.Gestures;
 using System;
 
@@ -12,11 +11,14 @@ public class CurvePanHandler : MonoBehaviour
     private SplineWalker walker;                //object being moved
     private Vector3 difference;                 //Pan variable, gesture differenc between detected current and last touchpoint
     private float magnitude;                    //is like difference, but projected into relevant direction vector (direction of path)
+    private float dampMagnitude;                // magnitude of raw attraction process - movement needs to be smoothed out by lerping between magnitude and dampMagnitude
     private Vector3 direction;                  //direction vector in which we need to pan
     private float progress;                     // progress of whatever we are moving in game scene
-    private float dampProgress;                     // progress of whatever we are moving in game scene
-    private bool passing;
-    private bool panCompletedInAttractor;
+    private float dampProgress;                 // progress of raw attraction process - movement needs to be smoothed out by lerping between progress and dampprogress
+    // private bool passing;
+    private bool attracted;
+    private Interval attractor;
+    private float panCompletedProgress;
     public float distanceFromEdge;              // when in bump zone how close is player to the very end of bump zone edge
     public float normalizedDistance;            // distance from edge as interval <0,1>
     public GestureState gestureState;           //which state is Pan in? (start,end,done)
@@ -31,7 +33,7 @@ public class CurvePanHandler : MonoBehaviour
         magnitude = 0f;
         difference = Vector2.zero;
         gestureState = GestureState.Done;
-        passing = false;
+        // passing = false;
     }
     void Start()
     {
@@ -101,16 +103,33 @@ public class CurvePanHandler : MonoBehaviour
         magnitude = Vector3.Dot(difference, Vector3.ProjectOnPlane(direction, Camera.main.transform.forward).normalized);
         magnitude = Mathf.Clamp(magnitude, -maxMagnitude, maxMagnitude);
 
-        // Debug.Log("magnitude: " + magnitude + "; startProgress: " + progress + "; expectedProgress: " + walker.GetEndFromMagnitude(magnitude, inertiaIntensity));
-        if(walker.getState()==PositionState.AttractionZone)
+        attracted = false;
+        dampMagnitude = 0f;
+        attractor = null;
+        panCompletedProgress = progress;
+        var stopsAtProgress = walker.GetEndFromMagnitude(magnitude, inertiaIntensity);
+        attractor = walker.CheckForAttractionPointAt(stopsAtProgress);
+        // if(attractor != null)
+        //     Debug.Log(attractor.GetCenter());
+        if (attractor != null)
         {
-            // Debug.Log("setIsPassing on pan completed");
-            passing = walker.IsPassing(magnitude,inertiaIntensity);
-            // passing = false;
+            attracted = true;
+            var to = attractor.GetCenter();
+            dampMagnitude = walker.GetMagnitudeFromEnd(progress, to, inertiaIntensity);
+            // Debug.Log("dampMagnitude: " + dampMagnitude + ", magnitude: " + magnitude);
+            dampProgress = progress;
         }
 
+        // Debug.Log("magnitude: " + magnitude + "; startProgress: " + progress + "; expectedProgress: " + walker.GetEndFromMagnitude(magnitude, inertiaIntensity));
+        // if(walker.getState()==PositionState.AttractionZone)
+        // {
+        //     // Debug.Log("setIsPassing on pan completed");
+        //     passing = walker.IsPassing(magnitude,inertiaIntensity);
+        //     // passing = false;
+        // }
+
         gestureState = GestureState.End;
-        if(walker.getState()!= PositionState.AttractionZone)
+        if (walker.GetState() != PositionState.AttractionZone)
             walker.prevState = PositionState.FreeZone;
     }
 
@@ -127,23 +146,24 @@ public class CurvePanHandler : MonoBehaviour
                 break;
             // inertia
             case GestureState.End:
-                switch (walker.getState())
+                switch (walker.GetState())
                 {
                     // if camera is in free moving area
                     case PositionState.FreeZone:
                         FreeMoveZoneInertia();
+                        AttractionInertia();
                         break;
-                    case PositionState.AttractionZone:
-                        if (walker.getPrevState() != PositionState.AttractionZone) // || (walker.getPrevState() == PositionState.AttractionZone && walker.getActiveAttractionPoint()!=walker.getActiveAttractionPoint()))
-                        {
-                            // Debug.Log("setIsPassing on enter zone. "+walker.getPrevState());
-                            passing = walker.IsPassing(magnitude, inertiaIntensity);
-                            // passing = false;
-                        }
-                        FreeMoveZoneInertia();
-                        AttractToPoint();
+                    // case PositionState.AttractionZone:
+                    //     if (walker.getPrevState() != PositionState.AttractionZone) // || (walker.getPrevState() == PositionState.AttractionZone && walker.getActiveAttractionPoint()!=walker.getActiveAttractionPoint()))
+                    //     {
+                    //         // Debug.Log("setIsPassing on enter zone. "+walker.getPrevState());
+                    //         passing = walker.IsPassing(magnitude, inertiaIntensity);
+                    //         // passing = false;
+                    //     }
+                    //     FreeMoveZoneInertia();
+                    //     AttractToPoint();
 
-                        break;
+                    //     break;
                     // if camera is inside bumping end
                     case PositionState.BumpBack:
                         Bump();
@@ -153,12 +173,17 @@ public class CurvePanHandler : MonoBehaviour
                         Bump();
                         break;
                 }
-                if (!passing && walker.getState() == PositionState.AttractionZone)
-                    // progress = Mathf.SmoothStep(progress, dampProgress, Mathf.Abs(walker.getNormalizedDistanceToCenter() * 5));
-                    progress = Mathf.Lerp(progress, dampProgress, Mathf.Sqrt(Mathf.Sqrt(Mathf.Abs(walker.getNormalizedDistanceToCenter()))));
-                else
-                    progress -= magnitude;
+                // if (!passing && walker.getState() == PositionState.AttractionZone)
+                //     // progress = Mathf.SmoothStep(progress, dampProgress, Mathf.Abs(walker.getNormalizedDistanceToCenter() * 5));
+                //     progress = Mathf.Lerp(progress, dampProgress, Mathf.Sqrt(Mathf.Sqrt(Mathf.Abs(walker.getNormalizedDistanceToCenter()))));
+                // else
 
+                progress -= magnitude;
+                if (attracted && attractor != null)
+                {
+                    // Debug.Log(attractor);
+                    progress = Mathf.Lerp(progress, dampProgress, Mathf.Sqrt(Mathf.Sqrt(Mathf.Abs(walker.GetNormalizedDistanceTo(attractor.GetCenter(), panCompletedProgress)))));
+                }
 
                 // Debug.Log(walker.getNormalizedDistanceToCenter());
                 // progress = dampProgress;
@@ -168,7 +193,13 @@ public class CurvePanHandler : MonoBehaviour
                 {
                     // gestureState = GestureState.Done;
                     magnitude = 0f;
-                    passing = false;
+                    if (Math.Abs(dampMagnitude) < 0.001f)
+                    {
+                        attracted = false;
+                        dampMagnitude = 0f;
+                        attractor = null;
+                    }
+                    // passing = false;
                 }
                 walker.SetPositionState();
                 break;
@@ -182,14 +213,23 @@ public class CurvePanHandler : MonoBehaviour
     {
         magnitude *= inertiaIntensity;
     }
-
-    private void AttractToPoint()
+    //smooth slowing down after finger leaves display (inertia)
+    private void AttractionInertia()
     {
-        if (!passing && Mathf.Abs(progress - walker.activeAtrractionPoint.getCenter()) > 0.05)
+        if (attracted)
         {
-            dampProgress = Mathf.SmoothDamp(walker.getProgress(), walker.activeAtrractionPoint.getCenter(), ref magnitude, 0.2f); // pozn cas t by mel byt zavisly na delce intervalu! pozdeji naimplementovat
+            dampMagnitude *= inertiaIntensity;
+            dampProgress -= dampMagnitude;
         }
     }
+
+    // private void AttractToPoint()
+    // {
+    //     if (!passing && Mathf.Abs(progress - walker.activeAtrractionPoint.getCenter()) > 0.05)
+    //     {
+    //         dampProgress = Mathf.SmoothDamp(walker.getProgress(), walker.activeAtrractionPoint.getCenter(), ref magnitude, 0.2f); // pozn cas t by mel byt zavisly na delce intervalu! pozdeji naimplementovat
+    //     }
+    // }
     private void Bump()
     {
         var backToSpline = 0f;

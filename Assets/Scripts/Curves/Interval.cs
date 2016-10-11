@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Interval : MonoBehaviour {
+public class Interval {
 	public float start;
 	public float end;
 	public float center;
@@ -13,20 +12,37 @@ public class Interval : MonoBehaviour {
 		this.center = center;
 		this.reach = reach;
 	}
-	public float getStart()
+	public float GetStart()
 	{
 		return start;
 	}
-	public float getEnd()
+	public float GetEnd()
 	{
 		return end;
 	}
-	public float getCenter()
+	public float GetCenter()
 	{
 		return center;
 	}
-	public float getReach()
+	public float GetReach()
 	{
 		return reach;
 	}
 }
+// public class Cell : Component
+//      {
+          
+//          public GameObject cellSprite;
+//          public Vector3 pos = new Vector3(0, 0, 0);
+         
+//          void Start()
+//          {
+//              CreateCell(cellSprite);
+//          }
+          
+//          public void CreateCell(GameObject sprite)
+//          {
+//              Instantiate(sprite, pos, Quaternion.identity);
+//          }
+      
+//      }
