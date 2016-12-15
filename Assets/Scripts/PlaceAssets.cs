@@ -41,29 +41,29 @@ public class PlaceAssets : MonoBehaviour {
 		endLeftMiddle.transform.parent = gameObject.transform;
 		endLeftMiddle.transform.localPosition = new Vector3(-length/2*5f, 0.1f,0f);
 		endLeftMiddle.GetComponent<CollisionHandler>().xPlus = true;
-		endLeftMiddle.GetComponent<CollisionHandler>().yMinus = true;
+		endLeftMiddle.GetComponent<CollisionHandler>().zMinus = true;
 
 		var endRightMiddle = (GameObject) Instantiate(endPrefab,new Vector3(0,0,0),Quaternion.identity);
 		endRightMiddle.transform.parent = gameObject.transform;
 		endRightMiddle.transform.localPosition = new Vector3(length/2*5f, 0.1f,0f);
 		endRightMiddle.GetComponent<CollisionHandler>().xMinus = true;
-		endRightMiddle.GetComponent<CollisionHandler>().yPlus = true;
-		endRightMiddle.GetComponent<CollisionHandler>().yMinus = true;
+		endRightMiddle.GetComponent<CollisionHandler>().zPlus = true;
+		endRightMiddle.GetComponent<CollisionHandler>().zMinus = true;
 
 		var endRightTop = (GameObject) Instantiate(endPrefab,new Vector3(0,0,0),Quaternion.identity);
 		endRightTop.transform.parent = gameObject.transform;
 		endRightTop.transform.localPosition = new Vector3(length/2*5f, 0.1f,15f);
-		endRightTop.GetComponent<CollisionHandler>().yMinus = true;
+		endRightTop.GetComponent<CollisionHandler>().zMinus = true;
 
 		var endRightBottom = (GameObject) Instantiate(endPrefab,new Vector3(0,0,0),Quaternion.identity);
 		endRightBottom.transform.parent = gameObject.transform;
 		endRightBottom.transform.localPosition = new Vector3(length/2*5f, 0.1f,-10f);
-		endRightBottom.GetComponent<CollisionHandler>().yPlus = true;
+		endRightBottom.GetComponent<CollisionHandler>().zPlus = true;
 
 		var endLeftBottom = (GameObject) Instantiate(endPrefab,new Vector3(0,0,0),Quaternion.identity);
 		endLeftBottom.transform.parent = gameObject.transform;
 		endLeftBottom.transform.localPosition = new Vector3(-length/2*5f, 0.1f,-30f);
-		endLeftBottom.GetComponent<CollisionHandler>().yPlus = true;
+		endLeftBottom.GetComponent<CollisionHandler>().zPlus = true;
 
 		var endCenter = (GameObject) Instantiate(endPrefab,new Vector3(0,0,0),Quaternion.identity);
 		endCenter.transform.parent = gameObject.transform;
@@ -74,15 +74,15 @@ public class PlaceAssets : MonoBehaviour {
 		endCenter.GetComponent<CollisionHandler>().xPlusNode = endRightMiddle;
 
 		endRightMiddle.GetComponent<CollisionHandler>().xMinusNode = endCenter;
-		endRightMiddle.GetComponent<CollisionHandler>().yPlusNode = endRightTop;
-		endRightMiddle.GetComponent<CollisionHandler>().yMinusNode = endRightBottom;
-		endRightTop.GetComponent<CollisionHandler>().yMinusNode = endRightMiddle;
-		endRightBottom.GetComponent<CollisionHandler>().yPlusNode = endRightMiddle;
+		endRightMiddle.GetComponent<CollisionHandler>().zPlusNode = endRightTop;
+		endRightMiddle.GetComponent<CollisionHandler>().zMinusNode = endRightBottom;
+		endRightTop.GetComponent<CollisionHandler>().zMinusNode = endRightMiddle;
+		endRightBottom.GetComponent<CollisionHandler>().zPlusNode = endRightMiddle;
 
 
 		endLeftMiddle.GetComponent<CollisionHandler>().xPlusNode = endCenter;
-		endLeftMiddle.GetComponent<CollisionHandler>().yMinusNode = endLeftBottom;
-		endLeftBottom.GetComponent<CollisionHandler>().yPlusNode = endLeftMiddle;
+		endLeftMiddle.GetComponent<CollisionHandler>().zMinusNode = endLeftBottom;
+		endLeftBottom.GetComponent<CollisionHandler>().zPlusNode = endLeftMiddle;
 		
 	}
 }

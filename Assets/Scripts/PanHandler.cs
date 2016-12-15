@@ -59,7 +59,8 @@ public class PanHandler : MonoBehaviour
         var gesture = sender as TransformGesture;
         difference = gesture.DeltaPosition;
         difference.x = Mathf.Clamp(difference.x, -maxDifference, maxDifference); //ensures player wont move beyond breaks (colliders) when performing quick moves
-        difference.y = Mathf.Clamp(difference.y, -maxDifference, maxDifference); //ensures player wont move beyond breaks (colliders) when performing quick moves
+        difference.z = Mathf.Clamp(difference.z, -maxDifference, maxDifference); //ensures player wont move beyond breaks (colliders) when performing quick moves
+        difference.y = 0f;
         gestureState = GestureState.Start;
 
         SetOrientation();
@@ -78,8 +79,8 @@ public class PanHandler : MonoBehaviour
         var gesture = sender as TransformGesture;
         difference = gesture.DeltaPosition;
         difference.x = Mathf.Clamp(difference.x, -maxDifference, maxDifference); //ensures player wont move beyond breaks (colliders) when performing quick moves
-        difference.y = Mathf.Clamp(difference.y, -maxDifference, maxDifference); //ensures player wont move beyond breaks (colliders) when performing quick moves
-        difference.z = 0f;
+        difference.z = Mathf.Clamp(difference.z, -maxDifference, maxDifference); //ensures player wont move beyond breaks (colliders) when performing quick moves
+        difference.y = 0f;
 
         //which direction are we scrolling?
         SetOrientation();
@@ -98,9 +99,9 @@ public class PanHandler : MonoBehaviour
         var gesture = sender as TransformGesture;
         difference = gesture.DeltaPosition;
         difference.x = Math.Abs(difference.x) <= maxInertia ? difference.x : maxInertia * Math.Sign(difference.x);
-        difference.y = Math.Abs(difference.y) <= maxInertia ? difference.y : maxInertia * Math.Sign(difference.y);
+        difference.z = Math.Abs(difference.z) <= maxInertia ? difference.z : maxInertia * Math.Sign(difference.z);
         difference.x = Math.Abs(difference.x) <= minInertia ? 0f : difference.x;
-        difference.y = Math.Abs(difference.y) <= minInertia ? 0f : difference.y;
+        difference.z = Math.Abs(difference.z) <= minInertia ? 0f : difference.z;
 
         gestureState = GestureState.End;
         
@@ -117,8 +118,8 @@ public class PanHandler : MonoBehaviour
                     .setEase(LeanTweenType.easeOutQuint);
                     break;
                 case PanOrientation.Vertical:
-                    LeanTween.moveY(gameObject
-                    , col.GetComponent<CollisionHandler>().Position.y
+                    LeanTween.moveZ(gameObject
+                    , col.GetComponent<CollisionHandler>().Position.z
                     , .6f)
                     .setEase(LeanTweenType.easeOutQuint);
                     break;
@@ -154,7 +155,7 @@ public class PanHandler : MonoBehaviour
                     Bump();
                 }
 
-                transform.position += new Vector3(Mathf.Clamp(difference.x, -0.6f, 0.6f), Mathf.Clamp(difference.y, -0.6f, 0.6f), 0);
+                transform.position += new Vector3(Mathf.Clamp(difference.x, -0.6f, 0.6f), 0f, Mathf.Clamp(difference.z, -0.6f, 0.6f));
                 if (Math.Abs(difference.magnitude) < 0.001f && !LeanTween.isTweening())
                 {
                     gestureState = GestureState.Done;
@@ -177,7 +178,7 @@ public class PanHandler : MonoBehaviour
                 differenceDirection = difference.x;
                 break;
             case PanOrientation.Vertical:
-                differenceDirection = difference.y;
+                differenceDirection = difference.z;
                 break;
         }
 
@@ -191,7 +192,7 @@ public class PanHandler : MonoBehaviour
                 difference.x = differenceDirection;
                 break;
             case PanOrientation.Vertical:
-                difference.y = differenceDirection;
+                difference.z = differenceDirection;
                 break;
             default:
                 difference = Vector3.zero;
@@ -226,12 +227,12 @@ public class PanHandler : MonoBehaviour
                 Plus = col.GetComponent<CollisionHandler>().xPlus;
                 break;
             case PanOrientation.Vertical:
-                differenceDirection = difference.y;
-                extentsDirection = col.bounds.extents.y;
-                distanceFromEdgeDirectionPlus = (col.GetComponent<CollisionHandler>().GetPosition() + col.bounds.extents - transform.position).y;
-                distanceFromEdgeDirectionMinus = (col.GetComponent<CollisionHandler>().GetPosition() - col.bounds.extents - transform.position).y;
-                Minus = col.GetComponent<CollisionHandler>().yMinus;
-                Plus = col.GetComponent<CollisionHandler>().yPlus;
+                differenceDirection = difference.z;
+                extentsDirection = col.bounds.extents.z;
+                distanceFromEdgeDirectionPlus = (col.GetComponent<CollisionHandler>().GetPosition() + col.bounds.extents - transform.position).z;
+                distanceFromEdgeDirectionMinus = (col.GetComponent<CollisionHandler>().GetPosition() - col.bounds.extents - transform.position).z;
+                Minus = col.GetComponent<CollisionHandler>().zMinus;
+                Plus = col.GetComponent<CollisionHandler>().zPlus;
                 break;
         }
         // difference.x < 0 for not slowing down motion when moving in direction back to freezone
@@ -261,7 +262,7 @@ public class PanHandler : MonoBehaviour
                 difference.x = differenceDirection;
                 break;
             case PanOrientation.Vertical:
-                difference.y = differenceDirection;
+                difference.z = differenceDirection;
                 break;
         }
     }
@@ -290,14 +291,14 @@ public class PanHandler : MonoBehaviour
                 case PanOrientation.Vertical:
                     //calling tweening functions only once (tweening functions have to be called only once to work as expected)
                     LeanTween.value(gameObject
-                        , difference.y, 0, .2f).setOnUpdate((float val) =>
+                        , difference.z, 0, .2f).setOnUpdate((float val) =>
                         {
-                            difference = new Vector3(0, val, 0);
+                            difference = new Vector3(0, 0, val);
                             SlowDown(col);
                         }).setEase(LeanTweenType.linear);
-                    LeanTween.moveY(gameObject
-                        , col.GetComponent<CollisionHandler>().Position.y
-                        , Mathf.Clamp(1f / (1f * Math.Abs(difference.y)), 0.2f, .7f)) //speed of tween is higher when speed of inertia was higher..
+                    LeanTween.moveZ(gameObject
+                        , col.GetComponent<CollisionHandler>().Position.z
+                        , Mathf.Clamp(1f / (1f * Math.Abs(difference.z)), 0.2f, .7f)) //speed of tween is higher when speed of inertia was higher..
                     .setEase(LeanTweenType.easeOutQuint).setDelay(.2f);
                     break;
             }
@@ -316,7 +317,7 @@ public class PanHandler : MonoBehaviour
             case PanOrientation.Horizontal:
                 return (colPrevPosition.x * col.transform.position.x < 0f && !col.GetComponent<CollisionHandler>().IsCameraInFreeZone(panOrientation));
             case PanOrientation.Vertical:
-                return (colPrevPosition.y * col.transform.position.y < 0f && !col.GetComponent<CollisionHandler>().IsCameraInFreeZone(panOrientation));
+                return (colPrevPosition.z * col.transform.position.z < 0f && !col.GetComponent<CollisionHandler>().IsCameraInFreeZone(panOrientation));
             default:
                 return false;
         }
@@ -329,11 +330,11 @@ public class PanHandler : MonoBehaviour
     {
         if (col != null && col.GetComponent<CollisionHandler>().IsCameraInCollider())
         {
-            if (Math.Abs(difference.x) < Math.Abs(difference.y) && (col.GetComponent<CollisionHandler>().yMinus || col.GetComponent<CollisionHandler>().yPlus))
+            if (Math.Abs(difference.x) < Math.Abs(difference.z) && (col.GetComponent<CollisionHandler>().zMinus || col.GetComponent<CollisionHandler>().zPlus))
             {
                 panOrientation = PanOrientation.Vertical;
             }
-            if (Math.Abs(difference.x) >= Math.Abs(difference.y) && (col.GetComponent<CollisionHandler>().xMinus || col.GetComponent<CollisionHandler>().xPlus))
+            if (Math.Abs(difference.x) >= Math.Abs(difference.z) && (col.GetComponent<CollisionHandler>().xMinus || col.GetComponent<CollisionHandler>().xPlus))
             {
                 panOrientation = PanOrientation.Horizontal;
             }
@@ -343,7 +344,7 @@ public class PanHandler : MonoBehaviour
         switch (panOrientation)
         {
             case PanOrientation.Horizontal:
-                difference.y = 0f;
+                difference.z = 0f;
                 break;
             case PanOrientation.Vertical:
                 difference.x = 0f;
@@ -377,18 +378,18 @@ public class PanHandler : MonoBehaviour
         }
         else if (panOrientation == PanOrientation.Vertical)
         {
-            if (difference.y < 0)
+            if (difference.z < 0)
             {
-                if (col == null && panDirection != PanDirection.Plus && transform.position.y < guideStartNode.GetComponent<CollisionHandler>().Position.y)
+                if (col == null && panDirection != PanDirection.Plus && transform.position.z < guideStartNode.GetComponent<CollisionHandler>().Position.z)
                 {
                     //Debug.Log(transform.position.x+", "+guideStart.x);
                     SetNewGuideParams();
                 }
                 panDirection = PanDirection.Plus;
             }
-            else if (difference.y > 0)
+            else if (difference.z > 0)
             {
-                if (col == null && panDirection != PanDirection.Minus && transform.position.y > guideStartNode.GetComponent<CollisionHandler>().Position.y)
+                if (col == null && panDirection != PanDirection.Minus && transform.position.z > guideStartNode.GetComponent<CollisionHandler>().Position.z)
                 {
                     //Debug.Log(transform.position.x+", "+guideStart.x);
                     SetNewGuideParams();
@@ -404,23 +405,24 @@ public class PanHandler : MonoBehaviour
         {
             if (difference.x < 0 && col == null && panDirection == PanDirection.Plus && transform.position.x < guideStartNode.GetComponent<CollisionHandler>().Position.x)
             {
-                transform.position = new Vector3(transform.position.x,Mathf.Lerp(guideDestination.y,guideStart.y,(guideDestination.x-transform.position.x)/guideDistance),transform.position.z);
+                // Debug.Log("guide.y: "+guideDestination.y+", "+guideStart.y+", "+transform.position.z);
+                transform.position = new Vector3(transform.position.x,transform.position.y,Mathf.Lerp(guideDestination.z,guideStart.z,(guideDestination.x-transform.position.x)/guideDistance));
             }
             else if (difference.x > 0 && col == null && panDirection == PanDirection.Minus && transform.position.x > guideStartNode.GetComponent<CollisionHandler>().Position.x)
             {
-                transform.position = new Vector3(transform.position.x,Mathf.Lerp(guideDestination.y,guideStart.y,(guideDestination.x-transform.position.x)/guideDistance),transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(guideDestination.z,guideStart.z,(guideDestination.x-transform.position.x)/guideDistance));
             }
         }
         else if (panOrientation == PanOrientation.Vertical)
         {
-            if (difference.y < 0 && col == null && panDirection == PanDirection.Plus && transform.position.y < guideStartNode.GetComponent<CollisionHandler>().Position.y)
+            if (difference.z < 0 && col == null && panDirection == PanDirection.Plus && transform.position.z < guideStartNode.GetComponent<CollisionHandler>().Position.z)
             {
-                transform.position = new Vector3(Mathf.Lerp(guideDestination.x,guideStart.x,(guideDestination.y-transform.position.y)/guideDistance), transform.position.y, transform.position.z);
+                transform.position = new Vector3(Mathf.Lerp(guideDestination.x,guideStart.x,(guideDestination.z-transform.position.z)/guideDistance), transform.position.y, transform.position.z);
                 
             }
-            else if (difference.y > 0 && col == null && panDirection == PanDirection.Minus && transform.position.y > guideStartNode.GetComponent<CollisionHandler>().Position.y)
+            else if (difference.z > 0 && col == null && panDirection == PanDirection.Minus && transform.position.z > guideStartNode.GetComponent<CollisionHandler>().Position.z)
             {
-                transform.position = new Vector3(Mathf.Lerp(guideDestination.x,guideStart.x,(guideDestination.y-transform.position.y)/guideDistance),transform.position.y,transform.position.z);
+                transform.position = new Vector3(Mathf.Lerp(guideDestination.x,guideStart.x,(guideDestination.z-transform.position.z)/guideDistance),transform.position.y,transform.position.z);
             }
         }
     }
@@ -432,11 +434,13 @@ public class PanHandler : MonoBehaviour
             if (panDirection == PanDirection.Plus)
             {
                 guideDestination = col.GetComponent<CollisionHandler>().xPlusNode.GetComponent<CollisionHandler>().Position + new Vector3(col.bounds.extents.x,0,0);
+                // Debug.DrawRay(guideDestination, Vector3.up, Color.cyan,20f);
                 //Debug.Log(guideDestination);
             }
             else if (panDirection == PanDirection.Minus)
             {
                 guideDestination = col.GetComponent<CollisionHandler>().xMinusNode.GetComponent<CollisionHandler>().Position - new Vector3(col.bounds.extents.x,0,0);
+                // Debug.DrawRay(guideDestination, Vector3.up, Color.cyan,20f);
                 //Debug.Log(guideDestination);
             }
         }
@@ -444,12 +448,12 @@ public class PanHandler : MonoBehaviour
         {
             if (panDirection == PanDirection.Plus)
             {
-                guideDestination = col.GetComponent<CollisionHandler>().yPlusNode.GetComponent<CollisionHandler>().Position + new Vector3(0,col.bounds.extents.y,0);
+                guideDestination = col.GetComponent<CollisionHandler>().zPlusNode.GetComponent<CollisionHandler>().Position + new Vector3(0,0,col.bounds.extents.z);
                 //Debug.Log(guideDestination);
             }
             else if (panDirection == PanDirection.Minus)
             {
-                guideDestination = col.GetComponent<CollisionHandler>().yMinusNode.GetComponent<CollisionHandler>().Position - new Vector3(0,col.bounds.extents.y,0);
+                guideDestination = col.GetComponent<CollisionHandler>().zMinusNode.GetComponent<CollisionHandler>().Position - new Vector3(0,0,col.bounds.extents.z);
                 //Debug.Log(guideDestination);
             }
         }
@@ -463,7 +467,7 @@ public class PanHandler : MonoBehaviour
         }
         else if (panOrientation == PanOrientation.Vertical)
         {
-            guideDistance = guideDestination.y - guideStart.y;
+            guideDistance = guideDestination.z - guideStart.z;
         }
         //Debug.Log(guideDistance);
     }

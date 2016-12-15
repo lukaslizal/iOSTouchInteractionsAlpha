@@ -7,12 +7,12 @@ public class CollisionHandler : MonoBehaviour
     public Vector3 Position; // position in front of camera
     public bool xPlus;
     public bool xMinus;
-    public bool yPlus;
-    public bool yMinus;
+    public bool zPlus;
+    public bool zMinus;
     public GameObject xPlusNode;
     public GameObject xMinusNode;
-    public GameObject yPlusNode;
-    public GameObject yMinusNode;
+    public GameObject zPlusNode;
+    public GameObject zMinusNode;
 
 
     void Start()
@@ -49,10 +49,10 @@ public class CollisionHandler : MonoBehaviour
                 Plus = xPlus;
                 break;
             case PanOrientation.Vertical:
-                position = transform.position.y;
-                extents = GetComponent<Collider>().bounds.extents.y;
-                Minus = yMinus;
-                Plus = yPlus;
+                position = transform.position.z;
+                extents = GetComponent<Collider>().bounds.extents.z;
+                Minus = zMinus;
+                Plus = zPlus;
                 break;
         }
         if (position > 0f && position <= extents)
@@ -72,8 +72,8 @@ public class CollisionHandler : MonoBehaviour
     {
         if (transform.position.x < GetComponent<Collider>().bounds.extents.x &&
         transform.position.x > -GetComponent<Collider>().bounds.extents.x &&
-        transform.position.y < GetComponent<Collider>().bounds.extents.y &&
-        transform.position.y > -GetComponent<Collider>().bounds.extents.y)
+        transform.position.z < GetComponent<Collider>().bounds.extents.z &&
+        transform.position.z > -GetComponent<Collider>().bounds.extents.z)
         {
             return true;
         }

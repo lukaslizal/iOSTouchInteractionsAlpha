@@ -70,3 +70,13 @@
 /Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/UnityEngine.Advertisements.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/UnityEngine.PlaymodeTestsRunner.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/UnityEngine.HoloLens.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/UnityEngine.VR.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/ProBuilderCore-Unity5.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/ProBuilderMeshOps-Unity5.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/KDTree.dll
+/Users/Lukas/Documents/unity/Touch-Interactions/Temp/bin/Debug/Triangle.dll
